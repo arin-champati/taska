@@ -1,26 +1,22 @@
 {
     "manifest_version": 2,
-    "name": "LinkedIn Lead Scraper",
+    "name": "Task Reward System",
     "version": "1.0",
 
     "browser_action": {
-        "default_popup": "popup.html"
+        "default_popup": "index.html"
     },
 
-    "content_scripts":[{
-        "run_at":"document_end",
-         "matches":["<all_urls>"],
-        "js":["scraper.js"],
-        "all_frames": false
-    }],
+    // "content_scripts":[{
+    //     "run_at":"document_end",
+    //      "matches":["<all_urls>"],
+    //     "js":["scraper.js"],
+    //     "all_frames": false
+    // }],
 
     "permissions":[
-        "tabs",
-        "activeTab",
         "unlimitedStorage",
         "storage",
-        "https://www.linkedin.com/recruiter/projects/*",
-        "https://www.linkedin.com/recruiter/profile/*",
         "*://*/*"
     ]
 }
