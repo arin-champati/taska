@@ -8,10 +8,10 @@
     },
 
     "content_scripts":[{
-        "run_at":"document_end",
+        // "run_at":"document_end",
          "matches":["<all_urls>"],
         "js":["content.js"],
-        "all_frames": false
+        "persistent":false
     }],
 
     "background": {
@@ -21,6 +21,7 @@
 
     "permissions":[
         "tabs",
+        "activeTab",
         "unlimitedStorage",
         "webRequest",
         "webRequestBlocking",
