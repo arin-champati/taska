@@ -19,7 +19,7 @@
   <body>
 
     <!-- Top bar -->
-    <div class="container top-bar">
+    <div class="container-fluid top-bar">
       <div class="row top-buffer reduce-bottom-buffer">
         <div>
           <p style="float:left;">LOGO</p>
@@ -30,29 +30,52 @@
     </div>
     <br>
 
+
     <!-- Task list -->
-    <div class="list-group" id="task-list">
-      <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="">
-        Cras justo odio
-      </label>
-      <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="">
-        Dapibus ac facilisis in
-      </label>
-      <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="">
-        Morbi leo risus
-      </label>
-      <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="">
-        Porta ac consectetur ac
-      </label>
-      <label class="list-group-item">
-        <input class="form-check-input me-1" type="checkbox" value="">
-        Vestibulum at eros
-      </label>
+    <div class="container-lg">
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td id="name">Name 1</td>
+                <td id="date">1/27/21</td>
+                <td id="actions">
+                  <i class="bi bi-chevron-down"></i>
+                </td>
+              </tr>
+
+              <tr>
+                <td id="name">Name 2</td>
+                <td id="date">1/31/21</td>
+                <td id="actions">
+                  <i class="bi bi-chevron-down"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+
+    <style>
+      table {border-collapse:collapse; table-layout:fixed; width:310px;}
+      #name {
+        width:100px; 
+        word-wrap:break-word;
+        text-align: left;
+      }
+      #date {
+        width:100px; 
+        word-wrap:break-word;
+        text-align: center;
+      }
+      #actions {
+        width:50px; 
+        word-wrap:break-word;
+        text-align: right;
+      }
+    </style>
 
     <div class = "fixed-bottom">
       <div class="text-center" id="start-working"><button class = "btn btn-block btn-primary">Start working!</button></div>
@@ -70,13 +93,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="website_list.html">
               <i class="bi bi-x-square-fill "></i>
             </a>
           </li>
         </ul>
       </nav>
     </div>
+
+    <!-- Bootstrap Tables JS -->
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -88,5 +113,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
     -->
+
   </body>
 </html>
