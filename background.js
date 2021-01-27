@@ -175,6 +175,8 @@ chrome.runtime.onMessage.addListener(
         }
         else if (request.message == "addBlock") {
             addBlockSite(request.blockSite);
+        } else if (request.message == "remove") {
+            removeBlockSite(request.blockSite);
         }
         sendResponse({})
     }
