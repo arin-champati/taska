@@ -1,10 +1,10 @@
 function handleTaskSubmit() {
-    let name = document.getElementById("task");
-    let descr = document.getElementById("task_description");
-    let date = document.getElementById("date");
-    let time = document.getElementById("time");
+    let name = document.getElementById("task").value;
+    let descr = document.getElementById("task_description").value;
+    let date = document.getElementById("date").value;
+    let time = document.getElementById("time").value;
     let datetime = new Date(date + " " + time);
-    let reward = parseFloat(document.getElementById("reward"));
+    let reward = parseFloat(document.getElementById("reward").value);
 
     chrome.runtime.sendMessage({
         message: "addTask", 

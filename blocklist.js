@@ -1,5 +1,5 @@
 function handleBlockSubmit() {
-    let site = document.getElementById("site");
+    let site = document.getElementById("site").value;
     chrome.runtime.sendMessage({
         message: "addBlock", 
         blockSite: site, 
