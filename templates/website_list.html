@@ -19,25 +19,21 @@
   <body>
     <h1 class = "text-center mb-6 my-2">Blocked Sites</h1>
 
-      <ul class = "list-group">
-        <li class = "list-group-item">www.youtube.com</li>
-        <li class = "list-group-item">www.google.com</li>
-        <li class = "list-group-item">www.facebook.com</li>
-        <li class = "list-group-item">www.instagram.com</li>
+      <ul id="site-list" class = "list-group">
       </ul>
 
     
     <div class = "fixed-bottom">
       <div class="text-center" id="add-blocked">
-        <form>
+        <form id="blocksubmit">
           <div class = "row">
             <div class = "col">
               <div class = "form-group">
                 <label for="site">Add a Blocked Site</label>
-                <input type = "text" id = "site" placeholder="website URL"></input>
+                <input type = "text" id = "site" placeholder="website URL" required></input>
               </div>
               <div class = "form-actions">
-                <div class="text-center" id="start-working"><button id="blocksubmit" class = "py-2 px-6 btn-main">Add a blocked site</button></div>
+                <div class="text-center" id="start-working"><button class = "py-2 px-6 btn-main">Add a blocked site</button></div>
             </div>
           </div>
         </form>

@@ -19,5 +19,5 @@ function handleTaskSubmit() {
 
 window.onload = function () {
     let tasksubmit = document.getElementById("tasksubmit");
-    tasksubmit.addEventListener("click", handleTaskSubmit);
+    tasksubmit.addEventListener("submit", handleTaskSubmit);
 }
