@@ -22,9 +22,9 @@ function toggleWorking() {
 }
 
 function fillTemplate(index, name, date, time, desc, reward) {
-	return `<tr data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">
-	                <td class="task-name">${name}</td>
-	                <td class="task-date">${date}</td>
+	return `<tr>
+	                <td class="task-name" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
+	                <td class="task-date" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${date}</td>
 	                <td class="task-action no-collapse">
 	                  <a class="bi bi-check-square"></a>
 	                  <a class="bi bi-x"></a>
