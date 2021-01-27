@@ -21,7 +21,7 @@
         <form>
             <div class="form-group my-3">
               <label for="task">Task Name</label>
-              <input type="text" class="form-control" id="task" aria-describedby="task" placeholder="Enter task name">
+              <input type="text" class="form-control" id="task" aria-describedby="task" placeholder="Enter task name" required>
             </div>
             <div class="form-group my-3">
               <label for="task_description">Task Description</label>
@@ -29,11 +29,16 @@
             </div>
             <div class="form-group my-3">
               <label for="date">Task Deadline</label>
-              <input type="date" id="date"></input>
+              <br>
+
+              <input type="date" id="date" style="float:left;" required></input>
+              <input type="time" id="time" style="float:right;" required></input>
+              
+              <br>
             </div>
             <div class="form-group my-3">
               <label for="reward">Reward</label>
-              <input type="text" class = "form-control" id="reward"></input>
+              <input type="number" step="0.5" class = "form-control" id="reward" required></input>
             </div>
             <div class = "form-actions">
               <button type="submit" class="btn btn-primary">Submit</button>
