@@ -64,3 +64,14 @@ body {
   color:white;
 }
 
+#main-logo {
+  width: 25%;
+  height: auto;
+  margin-bottom: 0px;
+}
+
+#settings-button {
+  margin-left: -10px;
+}
+
+
