@@ -81,6 +81,26 @@ function addBlockSite(siteUrl) {
 }
 
 // TODO: remove block site
+function removeBlockSite(siteUrl) {
+    chrome.storage.sync.get(['blockList'], function(result) {
+        let index = -1;
+        let blockList = result.blockList;
+        for(let i = 0; i < blockList.length; i++) {
+            if(blockList[i] === siteUrl) {
+                index = i;
+                break;
+            }
+        }
+        if(index != -1) {
+            blockList.splice(index, 1);
+            chrome.storage.sync.set({'blockList': blockList}, function() {
+                alert('Removed ' + siteUrl + ' from the block list');
+            });
+        } else {
+            alert("removing invalid task");
+        }
+    });
+}
 
 // adds a task to the task list
 // returns the uuid of the task
@@ -89,7 +109,6 @@ function addTask(taskName, taskDescription, taskDeadline, taskReward) {
     let task = new Task(taskName, taskDescription, taskDeadline, taskReward);
     chrome.storage.sync.get(['taskList'], function(result) {
         result.taskList.push(task);
-        alert(result.taskList);
         chrome.storage.sync.set({'taskList': result.taskList}, function() {
             console.log('Added ' + task.name + ' to task list with id '+ task.taskID);
             // enable buttons here
@@ -103,7 +122,6 @@ function removeTask(taskID) {
     chrome.storage.sync.get(['taskList'], function(result) {
         let index = -1;
         let taskList = result.taskList;
-        alert(result.taskList);
         for(let i = 0; i < taskList.length; i++) {
             if(taskList[i].taskID === taskID) {
                 index = i;
@@ -124,15 +142,15 @@ function removeTask(taskID) {
 // test site to block
 addBlockSite("youtube.com");
 
-// test task
-let id = addTask("testTask", "test description", Date.now(), 12);
-// weird async shit
-function wrapper() {
-    addTask("testTask2", "test description", Date.now(), 13);
-}
-setTimeout(wrapper, 1000);
+// // test task
+// let id = addTask("testTask", "test description", Date.now(), 12);
+// // weird async shit
+// function wrapper() {
+//     addTask("testTask2", "test description", Date.now(), 13);
+// }
+// setTimeout(wrapper, 1000);
 
-function wrapper2() {
-    removeTask(id)
-}
-setTimeout(wrapper2, 1000);
+// function wrapper2() {
+//     removeTask(id)
+// }
+// setTimeout(wrapper2, 1000);
