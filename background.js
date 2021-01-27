@@ -3,6 +3,10 @@ chrome.storage.sync.set({'blockList': []}, function() {
   console.log('Initialize block list');
 });
 
+// Initialize task list
+chrome.storage.sync.set({'taskList': []}, function() {
+  console.log('Initialize task list');
+});
 
 // Block sites
 function handleTabChange(activeInfo) {
@@ -32,10 +36,29 @@ chrome.tabs.onUpdated.addListener(handleTabChange);
 function addBlockSite(siteUrl) {
     chrome.storage.sync.get(['blockList'], function(result) {
         result.blockList.push(siteUrl)
-      chrome.storage.sync.set({'blockList': result.blockList}, function() {
-        console.log('Added ' + siteUrl + ' to block list');
-      });
+        chrome.storage.sync.set({'blockList': result.blockList}, function() {
+            console.log('Added ' + siteUrl + ' to block list');
+        });
     });
 }
 
+// test site to block
 addBlockSite("youtube.com");
+
+function addTask(taskName, taskDescription, taskDeadline, taskReward) {
+    let task = {
+        name: taskName,
+        description: taskDescription,
+        deadline: taskDeadline,
+        reward: taskReward
+    };
+    chrome.storage.sync.get(['taskList'], function(result) {
+        result.taskList.push(task)
+        chrome.storage.sync.set({'taskList': result.taskList}, function() {
+            console.log('Added ' + taskName + ' to task list');
+        });
+    });
+}
+
+// test task
+addTask("testTask", "test description", "12", 12);
