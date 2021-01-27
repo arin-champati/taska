@@ -1,11 +1,20 @@
 // Initialize block list
-chrome.storage.sync.set({'blockList': []}, function() {
-  console.log('Initialize block list');
+chrome.storage.sync.get(['blockList'], function(result) {
+    if (!result.blockList) {
+        chrome.storage.sync.set({'blockList': []}, function() {
+            console.log('Initialize block list');
+        });
+    }
 });
 
+
 // Initialize task list
-chrome.storage.sync.set({'taskList': []}, function() {
-  console.log('Initialize task list');
+chrome.storage.sync.get(['taskList'], function(result) {
+    if (!result.taskList) {
+        chrome.storage.sync.set({'taskList': []}, function() {
+            console.log('Initialize task list');
+        });
+    }
 });
 
 function uuidv4() {
@@ -145,7 +154,7 @@ function removeTask(taskID) {
 // spend points to unblock all the sites
 // temporarily equate 1 point to 1 minute
 // I have no idea if this works
-async function unblockSites(cost) {
+function unblockSites(cost) {
     if (points < cost) {
         alert("Not enough points, " + (cost - points) + " more required")
     } else {
