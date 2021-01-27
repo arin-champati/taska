@@ -26,8 +26,8 @@ function fillTemplate(index, name, date, time, desc, reward) {
 	                <td class="task-name" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
 	                <td class="task-date" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${date}</td>
 	                <td class="task-action no-collapse">
-	                  <a class="bi bi-check-square"></a>
-	                  <a class="bi bi-x"></a>
+	                  <a class="bi bi-check-square" role="button" id="complete-task"></a>
+	                  <a class="bi bi-x" role="button" id="delete-task"></a>
 	                </td>
 	                
 	              </tr>
@@ -60,13 +60,20 @@ function updateTaskList(taskList) {
 	}
 }
 
+function updatePoints(value) {
+	let points = document.getElementById("points-total");
+	points.innerHTML = "Lifetime Points: " + value;
+}
+
 window.onload = function () {
 	let working_button = document.getElementById("working-button");
 	working_button.addEventListener("click", toggleWorking);
 
-	chrome.storage.sync.get(['taskList', 'blockingEnabled'], function(result) {
+	chrome.storage.sync.get(['taskList', 'blockingEnabled', 'points'], function(result) {
 		let taskList = result.taskList;
 		updateTaskList(taskList);
+
+		updatePoints(result.points);
 
 		let blockingEnabled = result.blockingEnabled;
 		if (blockingEnabled) {
