@@ -53,7 +53,8 @@ function updateTaskList(taskList) {
 		let task = taskList[i];
 		let d = new Date(task.deadline);
 		let date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-		let time = (d.getHours() % 12) + ":" + d.getMinutes() + " " + (d.getHours() / 12 == 0 ? "A" : "P" ) + "M";
+		let time = (d.getHours() % 12) + ":" + (d.getMinutes() < 10 ? "0" : "") + 
+			d.getMinutes() + " " + (d.getHours() / 12 == 0 ? "A" : "P" ) + "M";
 		let current = fillTemplate(i, task.name, date, time, task.description, task.reward)
 		parent.innerHTML += current;
 	}
