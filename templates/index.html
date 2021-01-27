@@ -111,7 +111,7 @@
     </style>
 
     <div class = "fixed-bottom">
-      <div class="text-center" id="start-working"><input type = "button" class = "btn btn-main py-2 px-6" value = "Start working!" onclick="start_working()" id ="working-button"></inptu></div>
+      <div class="text-center" id="start-working"><input type = "button" class = "btn btn-main py-2 px-6" value = "Start working!" id ="working-button"></inptu></div>
       <br>
       <nav class = "navbar navbar-expand navbar-light bg-light">
         <ul class="navbar-nav">
@@ -137,18 +137,7 @@
     <!-- Bootstrap JS w/Popper -->
     <script src="../static/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-      function start_working()
-    {
-      var text = document.getElementById("working-button").value;
-      if (text == "Start working!") {
-        document.getElementById("working-button").value="Stop working!";
-      }
-      else {
-        document.getElementById("working-button").value="Start working!";
-      }
-    };
-    </script>
+    <script src="../index.js"></script>
 
 
   </body>
