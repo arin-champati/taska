@@ -17,7 +17,7 @@
 }
 
 /* start working button and submit button */
-.btn {
+.btn-main {
   font-size: 13px;
   color: #000000;
   background-color:#000000;
@@ -31,7 +31,7 @@
 }
 
 /* start working button and submit button */
-.btn-primary:hover {
+.btn-main:hover {
   background-color:#000000;
   border: 2px solid#000000;
 }

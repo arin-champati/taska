@@ -17,8 +17,31 @@
     <title>Task Manager</title>
   </head>
   <body>
-      
+    <h1 class = "text-center mb-6 my-2">Blocked Sites</h1>
+
+      <ul class = "list-group">
+        <li class = "list-group-item">www.youtube.com</li>
+        <li class = "list-group-item">www.google.com</li>
+        <li class = "list-group-item">www.facebook.com</li>
+        <li class = "list-group-item">www.instagram.com</li>
+      </ul>
+
+    
     <div class = "fixed-bottom">
+      <div class="text-center" id="add-blocked">
+        <form>
+          <div class = "row">
+            <div class = "col">
+              <div class = "form-group">
+                <label for "site">Add a Blocked Site</label>
+                <input type = "text" id = "site" placeholder="website URL"></input>
+              </div>
+              <div class = "form-actions">
+                <div class="text-center" id="start-working"><button class = "py-2 px-6 btn-main">Add a blocked site</button></div>
+            </div>
+          </div>
+        </form>
+      </div>
         <nav class = "navbar navbar-expand navbar-light bg-light">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -38,6 +61,6 @@
             </li>
           </ul>
         </nav>
-      </div>
+    </div>
   </body>
 </html>
