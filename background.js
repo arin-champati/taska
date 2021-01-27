@@ -23,7 +23,7 @@ let points = 10;
 
 // whether or not to enable blocking
 chrome.storage.sync.set({'blockingEnabled': false}, function() {
-    alert('Set blockingEnabled to false');
+    console.log('Set blockingEnabled to false');
 });
 
 class Task {
@@ -85,7 +85,7 @@ function addBlockSite(siteUrl) {
     chrome.storage.sync.get(['blockList'], function(result) {
         result.blockList.push(siteUrl);
         chrome.storage.sync.set({'blockList': result.blockList}, function() {
-            alert('Added ' + siteUrl + ' to block list');
+            console.log('Added ' + siteUrl + ' to block list');
             // enable buttons here
         });
     });
@@ -105,10 +105,10 @@ function removeBlockSite(siteUrl) {
         if(index != -1) {
             blockList.splice(index, 1);
             chrome.storage.sync.set({'blockList': blockList}, function() {
-                alert('Removed ' + siteUrl + ' from the block list');
+                console.log('Removed ' + siteUrl + ' from the block list');
             });
         } else {
-            alert("removing invalid task");
+            console.log("removing invalid task");
         }
     });
 }
@@ -121,7 +121,7 @@ function addTask(taskName, taskDescription, taskDeadline, taskReward) {
     chrome.storage.sync.get(['taskList'], function(result) {
         result.taskList.push(task);
         chrome.storage.sync.set({'taskList': result.taskList}, function() {
-            alert('Added ' + task.name + ' to task list with id '+ task.taskID);
+            console.log('Added ' + task.name + ' to task list with id '+ task.taskID);
             // enable buttons here
         });
     });
@@ -142,10 +142,10 @@ function removeTask(taskID) {
         if(index != -1) {
             taskList.splice(index, 1);
             chrome.storage.sync.set({'taskList': taskList}, function() {
-                alert('Removed ' + taskID + ' from the task list');
+                console.log('Removed ' + taskID + ' from the task list');
             });
         } else {
-            alert("removing invalid task");
+            console.log("removing invalid task");
         }
     });
 }
@@ -155,11 +155,11 @@ function removeTask(taskID) {
 // I have no idea if this works
 function unblockSites(cost, time_limit=true) {
     if (points < cost) {
-        alert("Not enough points, " + (cost - points) + " more required")
+        console.log("Not enough points, " + (cost - points) + " more required")
     } else {
         points -= cost;
         chrome.storage.sync.set({'blockingEnabled': false}, function() {
-            alert('Set blockingEnabled to false');
+            console.log('Set blockingEnabled to false');
         });
         if (time_limit) {
             setTimeout(blockSites, 1000*60*cost);
@@ -170,7 +170,7 @@ function unblockSites(cost, time_limit=true) {
 // block sites again
 function blockSites() {
     chrome.storage.sync.set({'blockingEnabled': true}, function() {
-        alert('Set blockingEnabled to true');
+        console.log('Set blockingEnabled to true');
     });
 }
 
@@ -195,22 +195,3 @@ chrome.runtime.onMessage.addListener(
         sendResponse({})
     }
     );
-
-// // test site to block
-// addBlockSite("youtube.com");
-
-// // test unblocking sites
-// unblockSites(0.5);
-
-// // test task
-// let id = addTask("testTask", "test description", Date.now(), 12);
-// // weird async shit
-// function wrapper() {
-//     addTask("testTask2", "test description", Date.now(), 13);
-// }
-// setTimeout(wrapper, 1000);
-
-// function wrapper2() {
-//     removeTask(id)
-// }
-// setTimeout(wrapper2, 1000);
