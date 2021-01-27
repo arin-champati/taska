@@ -11,5 +11,5 @@
 
   window.onload = function () {
     let working_button = document.getElementById("working-button");
-    working_button.addEventListener("click", start_working);
+	working_button.addEventListener("click", start_working);
 }
