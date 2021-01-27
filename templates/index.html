@@ -22,8 +22,8 @@
     <div class="container-fluid top-bar">
       <div class="row top-buffer reduce-bottom-buffer">
         <div>
-          <p style="float:left;">LOGO</p>
-          <a href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
+          <p style="float:left;"><img id="main-logo" src="../static/images/main-logo.png"></p>
+          <a id="settings-button" href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
         </div>
       </div>
 
@@ -34,39 +34,47 @@
     <div class="container-lg" id='task-list'>
 
       <div class="table-responsive">
-        <div class="table-wrapper">
-          <table class="table" style="border-collapse:collapse;">
-            <tbody>
+        <div class = "row">
+          <div class = "col-11">
+            <div class="table-wrapper">
+              <table class="table" style="border-collapse:collapse;">
+                <tbody>
 
-              <!-- Task basic info -->
-              <tr data-bs-toggle="collapse" href="#task-1" role="button" aria-expanded="false" aria-controls="task-1">
-                <td class="task-name">Name 1</td>
-                <td class="task-date">1/27/21</td>
-                <td class="task-action no-collapse">
-                  <a class="bi bi-check-square"></a>
-                  <a class="bi bi-x"></a>
-                </td>
-                
-              </tr>
+                  <!-- Task basic info -->
+                  <tr data-bs-toggle="collapse" href="#task-1" role="button" aria-expanded="false" aria-controls="task-1">
+                    <td class="task-name">Name 1</td>
+                    <td class="task-date">1/27/21</td>
+                    <!-- <td class="task-action no-collapse">
+                      <a class="bi bi-check-square"></a>
+                      <a class="bi bi-x"></a> 
+                    </td> -->
+                  </tr>
 
-              <!-- Task detailed info -->
-              <tr>
-                <td class="collapse" id="task-1" colspan="3">
+                  <!-- Task detailed info -->
+                  <tr>
+                    <td class="collapse" id="task-1" colspan="3">
+                      
+                      <table class="table table-borderless table-secondary task-detailed-info">
+                        <tr>
+                          <td class="task-description">Description</td>
+                          <td class="task-date">5:00PM</td>
+                          <td class="task-action">5 PTS</td>
+                        </tr>  
+                      </table>
+
+                    </td>
+                  </tr>
+
                   
-                  <table class="table table-borderless table-secondary task-detailed-info">
-                    <tr>
-                      <td class="task-description">Description</td>
-                      <td class="task-date">5:00PM</td>
-                      <td class="task-action">5 PTS</td>
-                    </tr>  
-                  </table>
-
-                </td>
-              </tr>
-
-              
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class = "col-1">
+            <td class="task-action no-collapse">
+              <a class="bi bi-check-square"></a>
+              <a class="bi bi-x"></a>
+          </div>
         </div>
       </div>
     </div>
