@@ -30,16 +30,21 @@
     </div>
     <br>   
 
+    <div class="container-lg" id='task-list'>
+
+    </div>
+
     <!-- Task list -->
     <div class="container-lg" id='task-list'>
       <div class="table-responsive">
         <div class="table-wrapper">
           <table class="table" style="border-collapse:collapse;">
             <tbody>
+
               <tr>
-                <td id="name">Name 1</td>
-                <td id="date">1/27/21</td>
-                <td id="action">
+                <td class="task-name">Name 1</td>
+                <td class="task-date">1/27/21</td>
+                <td class="task-action">
                   <a class="bi bi-chevron-down" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
                 </td>
                 
@@ -47,14 +52,20 @@
 
               <tr>
                 <td class="collapse" id="collapseExample" colspan="3">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                  
+                  <table class="table table-borderless">
+                    <td class="task-description">Description</td>
+                    <td class="task-date">5:00PM</td>
+                    <td class="task-action">5 PTS</td>
+                  </table>
+
                 </td>
               </tr>
 
               <tr>
-                <td id="name">Name 2</td>
-                <td id="date">1/31/21</td>
-                <td id="action">
+                <td class="task-name">Name 2</td>
+                <td class="task-date">1/31/21</td>
+                <td class="task-action">
                   <i class="bi bi-chevron-down"></i>
                 </td>
               </tr>
@@ -72,25 +83,35 @@
         overflow: scroll;
       }
       table {border-collapse:collapse; table-layout:fixed; width:310px;}
-      #name {
+      .task-name {
+        width:100px; 
+        word-wrap:break-word;
+        text-align: left;
+        font-weight: bold;
+      }
+      .task-description {
         width:100px; 
         word-wrap:break-word;
         text-align: left;
       }
-      #date {
+      .task-date {
         width:100px; 
         word-wrap:break-word;
         text-align: center;
       }
-      #action {
+      .task-action {
         width:50px; 
         word-wrap:break-word;
         text-align: right;
       }
+      /* .accordian-table-names {
+        
+      } */
+
     </style>
 
     <div class = "fixed-bottom">
-      <div class="text-center" id="start-working"><button class = "btn-main">Start working!</button></div>
+      <div class="text-center" id="start-working"><input type = "button" class = "btn btn-main py-2 px-6" value = "Start working!" onclick="start_working()" id ="working-button"></inptu></div>
       <br>
       <nav class = "navbar navbar-expand navbar-light bg-light">
         <ul class="navbar-nav">
@@ -115,6 +136,19 @@
 
     <!-- Bootstrap JS w/Popper -->
     <script src="../static/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      function start_working()
+    {
+      var text = document.getElementById("working-button").value;
+      if (text == "Start working!") {
+        document.getElementById("working-button").value="Stop working!";
+      }
+      else {
+        document.getElementById("working-button").value="Start working!";
+      }
+    };
+    </script>
 
 
   </body>

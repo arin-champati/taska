@@ -14,7 +14,10 @@ function updateBlockList(siteList) {
         let siteUrl = siteList[i];
         let listItem = document.createElement("li");
         listItem.innerText = siteUrl;
-        listItem.classList.add("list-group-item");
+        listItem.classList.add("list-group-item d-flex justify-content-between align-items-center");
+        let removeButton = document.createElement("button")
+        removeButton.classList.add("btn btn-sm btn-danger")
+        listItem.appendChild(removeButton)
 
         parent.appendChild(listItem);
     }
