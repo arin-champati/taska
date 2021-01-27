@@ -1,20 +1,15 @@
 // Initialize block list
-chrome.storage.sync.get(['blockList'], function(result) {
-    if (!result.blockList) {
-        chrome.storage.sync.set({'blockList': []}, function() {
-            console.log('Initialize block list');
-        });
-    }
+chrome.runtime.onInstalled.addListener(function() {
+    chrome.storage.sync.set({'blockList': []}, function() {
+        console.log('Initialize block list');
+    });
 });
 
-
 // Initialize task list
-chrome.storage.sync.get(['taskList'], function(result) {
-    if (!result.taskList) {
-        chrome.storage.sync.set({'taskList': []}, function() {
-            console.log('Initialize task list');
-        });
-    }
+chrome.runtime.onInstalled.addListener(function() {
+    chrome.storage.sync.set({'taskList': []}, function() {
+        console.log('Initialize task list');
+    });
 });
 
 function uuidv4() {
@@ -86,7 +81,7 @@ function addBlockSite(siteUrl) {
     chrome.storage.sync.get(['blockList'], function(result) {
         result.blockList.push(siteUrl);
         chrome.storage.sync.set({'blockList': result.blockList}, function() {
-            console.log('Added ' + siteUrl + ' to block list');
+            alert('Added ' + siteUrl + ' to block list');
             // enable buttons here
         });
     });
@@ -122,7 +117,7 @@ function addTask(taskName, taskDescription, taskDeadline, taskReward) {
     chrome.storage.sync.get(['taskList'], function(result) {
         result.taskList.push(task);
         chrome.storage.sync.set({'taskList': result.taskList}, function() {
-            console.log('Added ' + task.name + ' to task list with id '+ task.taskID);
+            alert('Added ' + task.name + ' to task list with id '+ task.taskID);
             // enable buttons here
         });
     });
@@ -169,12 +164,29 @@ function blockSites() {
     blockingEnabled = true;
 }
 
+// Receive request to add task
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.message == "addTask") {
+            addTask(request.taskName, 
+                request.taskDescription, 
+                request.taskDateTime, 
+                request.taskReward);
+        }
+        else if (request.message == "addBlock") {
+            addBlockSite(request.blockSite);
+        } else if (request.message == "remove") {
+            removeBlockSite(request.blockSite);
+        }
+        sendResponse({})
+    }
+  );
 
-// test site to block
-addBlockSite("youtube.com");
+// // test site to block
+// addBlockSite("youtube.com");
 
-// test unblocking sites
-unblockSites(0.5);
+// // test unblocking sites
+// unblockSites(0.5);
 
 // // test task
 // let id = addTask("testTask", "test description", Date.now(), 12);

@@ -28,32 +28,17 @@
   
       </div>
       <br>   
-
     <div class="container">
-        <ul class = "list-group">
-            <li class = "list-group-item d-flex justify-content-between align-items-center">www.youtube.com
-              <button class = "btn btn-sm btn-danger">Remove</button>
-            </li>
-            <li class = "list-group-item d-flex justify-content-between align-items-center">www.google.com
-              <button class = "btn btn-sm btn-danger">Remove</button>
-            </li>
-            <li class = "list-group-item d-flex justify-content-between align-items-center">www.facebook.com
-              <button class = "btn btn-sm btn-danger">Remove</button>
-            </li>
-            <li class = "list-group-item d-flex justify-content-between align-items-center">www.instagram.com
-              <button class = "btn btn-sm btn-danger">Remove</button>
-            </li>
+        <ul id="site-list" class = "list-group">
         </ul>
     </div>
-
-    
     <div class = "fixed-bottom">
       <div class="text-center" id="add-blocked">
         <div class = "container">
-        <form>
+        <form id="blocksubmit">
               <div class = "form-group">
                 <!-- <label for "site">Add a Blocked Site</label> -->
-                <input type = "text" id = "site" placeholder="Blocked Site URL" class = "form-control"></input>
+                <input type = "text" id = "site" placeholder="Blocked Site URL" class = "form-control" required></input>
               </div>
               <br>
               <div class = "form-actions">
@@ -83,5 +68,6 @@
           </ul>
         </nav>
     </div>
+    <script src="../blocklist.js"></script>
   </body>
 </html>
