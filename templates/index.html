@@ -28,47 +28,43 @@
       </div>
 
     </div>
-    <br>   
-
-    <div class="container-lg" id='task-list'>
-
-    </div>
+    <br>  
 
     <!-- Task list -->
     <div class="container-lg" id='task-list'>
+
       <div class="table-responsive">
         <div class="table-wrapper">
           <table class="table" style="border-collapse:collapse;">
             <tbody>
 
-              <tr>
+              <!-- Task basic info -->
+              <tr data-bs-toggle="collapse" href="#task-1" role="button" aria-expanded="false" aria-controls="task-1">
                 <td class="task-name">Name 1</td>
                 <td class="task-date">1/27/21</td>
-                <td class="task-action">
-                  <a class="bi bi-chevron-down" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
+                <td class="task-action no-collapse">
+                  <a class="bi bi-check-square"></a>
+                  <a class="bi bi-x"></a>
                 </td>
                 
               </tr>
 
+              <!-- Task detailed info -->
               <tr>
-                <td class="collapse" id="collapseExample" colspan="3">
+                <td class="collapse" id="task-1" colspan="3">
                   
-                  <table class="table table-borderless">
-                    <td class="task-description">Description</td>
-                    <td class="task-date">5:00PM</td>
-                    <td class="task-action">5 PTS</td>
+                  <table class="table table-borderless table-secondary task-detailed-info">
+                    <tr>
+                      <td class="task-description">Description</td>
+                      <td class="task-date">5:00PM</td>
+                      <td class="task-action">5 PTS</td>
+                    </tr>  
                   </table>
 
                 </td>
               </tr>
 
-              <tr>
-                <td class="task-name">Name 2</td>
-                <td class="task-date">1/31/21</td>
-                <td class="task-action">
-                  <i class="bi bi-chevron-down"></i>
-                </td>
-              </tr>
+              
             </tbody>
           </table>
         </div>
@@ -104,6 +100,9 @@
         word-wrap:break-word;
         text-align: right;
       }
+      .task-detailed-info {
+        margin-bottom:0px;
+      }
       .collapsing {
         -webkit-transition: none;
         transition: none;
@@ -117,7 +116,9 @@
     </style>
 
     <div class = "fixed-bottom">
-      <div class="text-center" id="start-working"><input type = "button" class = "btn btn-main py-2 px-6" value = "Start working!" id ="working-button"></inptu></div>
+      <p class="text-center">Lifetime Points: 0</p>
+
+      <div class="text-center" id="start-working"><input type = "button" class = "btn btn-main py-2 px-6" value = "Start working!" onclick="start_working()" id ="working-button"></input></div>
       <br>
       <nav class = "navbar navbar-expand navbar-light bg-light">
         <ul class="navbar-nav">
