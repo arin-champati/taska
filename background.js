@@ -174,7 +174,7 @@ function blockSites() {
     });
 }
 
-// Receive request to add tasks
+// Receive request to add task
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.message == "addTask") {
