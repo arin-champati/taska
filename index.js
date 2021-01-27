@@ -1,12 +1,25 @@
-function startWorking() {
-	var text = document.getElementById("working-button").value;
-	if (text == "Start working!") {
-		document.getElementById("working-button").value="Stop working!";
-	}
-	else {
-		document.getElementById("working-button").value="Start working!";
-	}
-};
+function toggleWorking() {
+	chrome.storage.sync.get(['blockingEnabled'], function(result) {
+		let blockingEnabled = result.blockingEnabled;
+		if(!blockingEnabled) {
+			document.getElementById("working-button").value="Stop working!";
+			chrome.runtime.sendMessage({
+			    message: "startBlocking", 
+			}, function(response) {
+			    console.log("Sent start blocking");
+			});
+		}
+		else {
+			document.getElementById("working-button").value="Start working!";
+			// send message to stop blocking
+			chrome.runtime.sendMessage({
+			    message: "stopBlocking", 
+			}, function(response) {
+			    console.log("Sent stop blocking");
+			});
+		}
+	});
+}
 
 function fillTemplate(index, name, date, time, desc, reward) {
 	return `<tr data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">
@@ -48,10 +61,17 @@ function updateTaskList(taskList) {
 
 window.onload = function () {
 	let working_button = document.getElementById("working-button");
-	working_button.addEventListener("click", startWorking);
+	working_button.addEventListener("click", toggleWorking);
 
-	chrome.storage.sync.get(['taskList'], function(result) {
+	chrome.storage.sync.get(['taskList', 'blockingEnabled'], function(result) {
 		let taskList = result.taskList;
 		updateTaskList(taskList);
+
+		let blockingEnabled = result.blockingEnabled;
+		if (blockingEnabled) {
+			document.getElementById("working-button").value="Stop working!";
+		} else {
+			document.getElementById("working-button").value="Start working!";
+		}
 	});
 }
