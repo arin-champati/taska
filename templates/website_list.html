@@ -17,8 +17,42 @@
     <title>Task Manager</title>
   </head>
   <body>
-      
+    <h1 class = "text-center mb-6 my-2">Blocked Sites</h1>
+
+    <div class="container">
+        <ul class = "list-group">
+            <li class = "list-group-item d-flex justify-content-between align-items-center">www.youtube.com
+              <button class = "btn btn-sm btn-danger">Remove</button>
+            </li>
+            <li class = "list-group-item d-flex justify-content-between align-items-center">www.google.com
+              <button class = "btn btn-sm btn-danger">Remove</button>
+            </li>
+            <li class = "list-group-item d-flex justify-content-between align-items-center">www.facebook.com
+              <button class = "btn btn-sm btn-danger">Remove</button>
+            </li>
+            <li class = "list-group-item d-flex justify-content-between align-items-center">www.instagram.com
+              <button class = "btn btn-sm btn-danger">Remove</button>
+            </li>
+        </ul>
+    </div>
+
+    
     <div class = "fixed-bottom">
+      <div class="text-center" id="add-blocked">
+        <div class = "container">
+        <form>
+              <div class = "form-group">
+                <!-- <label for "site">Add a Blocked Site</label> -->
+                <input type = "text" id = "site" placeholder="Blocked Site URL" class = "form-control"></input>
+              </div>
+              <br>
+              <div class = "form-actions">
+                <div class="text-center" id="start-working"><button class = "py-2 px-6 btn-main">Add a Blocked Site</button></div>
+              </div>
+        </form>
+        </div>
+      </div>
+      <br>
         <nav class = "navbar navbar-expand navbar-light bg-light">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -38,6 +72,6 @@
             </li>
           </ul>
         </nav>
-      </div>
+    </div>
   </body>
 </html>
