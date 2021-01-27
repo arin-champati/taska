@@ -15,14 +15,16 @@ chrome.runtime.onInstalled.addListener(function() {
 function uuidv4() {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
-  }
+      );
+}
 
 // overall points by user
 let points = 10;
 
 // whether or not to enable blocking
-let blockingEnabled = true;
+chrome.storage.sync.set({'blockingEnabled': false}, function() {
+    console.log('Set blockingEnabled to false');
+});
 
 class Task {
     constructor(name, description, deadline, reward) {
@@ -54,20 +56,22 @@ Task.prototype.toString = function() {
 // Block sites
 function handleTabChange(activeInfo) {
     // Gives details of the active tab in the current window.
-    chrome.tabs.query({'active':true,'currentWindow':true},function(array_of_tabs){
-        // get list of blocked sites from storage
-        let currentUrl = array_of_tabs[0].url;
-        chrome.storage.sync.get(['blockList'], function(result) {
-            let blockList = result.blockList;
-            for (let i = 0; i < blockList.length; i++) {
-                // if url in blocked sites list, pass message to content (for blocking)
-                if (currentUrl.includes(blockList[i]) && blockingEnabled) {
-                    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                        var activeTab = tabs[0];
-                        chrome.tabs.sendMessage(activeTab.id, {"blockLink": currentUrl});
-                    });
+    chrome.storage.sync.get(['blockingEnabled'], function(blockingResult) {
+        chrome.tabs.query({'active':true,'currentWindow':true},function(array_of_tabs){
+            // get list of blocked sites from storage
+            let currentUrl = array_of_tabs[0].url;
+            chrome.storage.sync.get(['blockList'], function(result) {
+                let blockList = result.blockList;
+                for (let i = 0; i < blockList.length; i++) {
+                    // if url in blocked sites list, pass message to content (for blocking)
+                    if (currentUrl.includes(blockList[i]) && blockingResult.blockingEnabled) {
+                        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                            var activeTab = tabs[0];
+                            chrome.tabs.sendMessage(activeTab.id, {"blockLink": currentUrl});
+                        });
+                    }
                 }
-            }
+            });
         });
     });
 }
@@ -81,7 +85,7 @@ function addBlockSite(siteUrl) {
     chrome.storage.sync.get(['blockList'], function(result) {
         result.blockList.push(siteUrl);
         chrome.storage.sync.set({'blockList': result.blockList}, function() {
-            alert('Added ' + siteUrl + ' to block list');
+            console.log('Added ' + siteUrl + ' to block list');
             // enable buttons here
         });
     });
@@ -101,10 +105,10 @@ function removeBlockSite(siteUrl) {
         if(index != -1) {
             blockList.splice(index, 1);
             chrome.storage.sync.set({'blockList': blockList}, function() {
-                alert('Removed ' + siteUrl + ' from the block list');
+                console.log('Removed ' + siteUrl + ' from the block list');
             });
         } else {
-            alert("removing invalid task");
+            console.log("removing invalid task");
         }
     });
 }
@@ -117,7 +121,7 @@ function addTask(taskName, taskDescription, taskDeadline, taskReward) {
     chrome.storage.sync.get(['taskList'], function(result) {
         result.taskList.push(task);
         chrome.storage.sync.set({'taskList': result.taskList}, function() {
-            alert('Added ' + task.name + ' to task list with id '+ task.taskID);
+            console.log('Added ' + task.name + ' to task list with id '+ task.taskID);
             // enable buttons here
         });
     });
@@ -138,10 +142,10 @@ function removeTask(taskID) {
         if(index != -1) {
             taskList.splice(index, 1);
             chrome.storage.sync.set({'taskList': taskList}, function() {
-                alert('Removed ' + taskID + ' from the task list');
+                console.log('Removed ' + taskID + ' from the task list');
             });
         } else {
-            alert("removing invalid task");
+            console.log("removing invalid task");
         }
     });
 }
@@ -149,19 +153,25 @@ function removeTask(taskID) {
 // spend points to unblock all the sites
 // temporarily equate 1 point to 1 minute
 // I have no idea if this works
-function unblockSites(cost) {
+function unblockSites(cost, time_limit=true) {
     if (points < cost) {
-        alert("Not enough points, " + (cost - points) + " more required")
+        console.log("Not enough points, " + (cost - points) + " more required")
     } else {
         points -= cost;
-        blockingEnabled = false;
-        setTimeout(blockSites, 1000*60*cost);
+        chrome.storage.sync.set({'blockingEnabled': false}, function() {
+            console.log('Set blockingEnabled to false');
+        });
+        if (time_limit) {
+            setTimeout(blockSites, 1000*60*cost);
+        }
     }
 }
 
 // block sites again
 function blockSites() {
-    blockingEnabled = true;
+    chrome.storage.sync.set({'blockingEnabled': true}, function() {
+        console.log('Set blockingEnabled to true');
+    });
 }
 
 // Receive request to add task
@@ -177,26 +187,11 @@ chrome.runtime.onMessage.addListener(
             addBlockSite(request.blockSite);
         } else if (request.message == "remove") {
             removeBlockSite(request.blockSite);
+        } else if (request.message == "startBlocking") {
+            blockSites();
+        } else if (request.message = "stopBlocking") {
+            unblockSites(0, false);
         }
         sendResponse({})
     }
-  );
-
-// // test site to block
-// addBlockSite("youtube.com");
-
-// // test unblocking sites
-// unblockSites(0.5);
-
-// // test task
-// let id = addTask("testTask", "test description", Date.now(), 12);
-// // weird async shit
-// function wrapper() {
-//     addTask("testTask2", "test description", Date.now(), 13);
-// }
-// setTimeout(wrapper, 1000);
-
-// function wrapper2() {
-//     removeTask(id)
-// }
-// setTimeout(wrapper2, 1000);
+    );
