@@ -16,16 +16,24 @@
   border: 2px solid rgba(108, 89, 179, 0.75);
 }
 
-.btn-primary {
+/* start working button and submit button */
+.btn {
   font-size: 13px;
-  color: rgba(58, 133, 191, 0.75);
+  color: #000000;
+  background-color:#000000;
   letter-spacing: 1px;
   line-height: 15px;
-  border: 2px solid rgba(58, 133, 191, 0.75);
+  border: 2px solid#000000;
   border-radius: 40px;
   background: transparent;
   transition: all 0.3s ease 0s;
   width: 200px;
+}
+
+/* start working button and submit button */
+.btn-primary:hover {
+  background-color:#000000;
+  border: 2px solid#000000;
 }
 
 .navbar-nav {
@@ -35,4 +43,22 @@ display: flex;
 justify-content: space-around;
 }
 
+body {
+  min-width: 350px;
+  min-height: 600px;
+}
+
+.form-actions {
+  margin: 0;
+  background-color: transparent;
+  text-align: center;
+}
+
+.top-buffer { padding-top:15px; }
+.reduce-bottom-buffer { margin-bottom:-15px; }
+
+.top-bar {
+  background-color: black;
+  color:white;
+}
 
