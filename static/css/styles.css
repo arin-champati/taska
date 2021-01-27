@@ -17,7 +17,7 @@
 }
 
 /* start working button and submit button */
-.btn-primary {
+.btn {
   font-size: 13px;
   color: #000000;
   background-color:#000000;
@@ -45,7 +45,7 @@ justify-content: space-around;
 
 body {
   min-width: 340px;
-  min-height: 450px;
+  min-height: 550px;
 }
 
 .form-actions {
@@ -54,4 +54,11 @@ body {
   text-align: center;
 }
 
+.top-buffer { padding-top:15px; }
+.reduce-bottom-buffer { margin-bottom:-15px; }
+
+.top-bar {
+  background-color: black;
+  color:white;
+}
 
