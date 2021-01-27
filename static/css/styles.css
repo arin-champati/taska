@@ -62,16 +62,21 @@ body {
 .top-bar {
   background-color: black;
   color:white;
+  height: 65px;
+  margin-bottom: -10px;
+  line-height: 35px;;
 }
 
 #main-logo {
   width: 15%;
   height: auto;
-  margin-bottom: 0px;
+  /* margin-bottom: 0px; */
+  /* margin-right:0px; */
+  margin:0px;
 }
 
 #settings-button {
-  margin-left: -10px;
+  margin:0px;
 }
 
 
