@@ -5,7 +5,7 @@
 
     "browser_action": {
         "default_popup": "templates/index.html",
-        "default_icon": "static/images/check-mark.png"
+        "default_icon": "static/images/check-mark-2.png"
     },
 
     "content_scripts":[{
