@@ -81,7 +81,7 @@ function addBlockSite(siteUrl) {
     chrome.storage.sync.get(['blockList'], function(result) {
         result.blockList.push(siteUrl);
         chrome.storage.sync.set({'blockList': result.blockList}, function() {
-            console.log('Added ' + siteUrl + ' to block list');
+            alert('Added ' + siteUrl + ' to block list');
             // enable buttons here
         });
     });
