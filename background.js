@@ -15,7 +15,10 @@ function uuidv4() {
   }
 
 // overall points by user
-let points = 0;
+let points = 10;
+
+// whether or not to enable blocking
+let blockingEnabled = true;
 
 class Task {
     constructor(name, description, deadline, reward) {
@@ -54,7 +57,7 @@ function handleTabChange(activeInfo) {
             let blockList = result.blockList;
             for (let i = 0; i < blockList.length; i++) {
                 // if url in blocked sites list, pass message to content (for blocking)
-                if (currentUrl.includes(blockList[i])) {
+                if (currentUrl.includes(blockList[i]) && blockingEnabled) {
                     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                         var activeTab = tabs[0];
                         chrome.tabs.sendMessage(activeTab.id, {"blockLink": currentUrl});
@@ -80,7 +83,7 @@ function addBlockSite(siteUrl) {
     });
 }
 
-// TODO: remove block site
+// removes a site from the block list
 function removeBlockSite(siteUrl) {
     chrome.storage.sync.get(['blockList'], function(result) {
         let index = -1;
@@ -139,8 +142,30 @@ function removeTask(taskID) {
     });
 }
 
+// spend points to unblock all the sites
+// temporarily equate 1 point to 1 minute
+// I have no idea if this works
+async function unblockSites(cost) {
+    if (points < cost) {
+        alert("Not enough points, " + (cost - points) + " more required")
+    } else {
+        points -= cost;
+        blockingEnabled = false;
+        setTimeout(blockSites, 1000*60*cost);
+    }
+}
+
+// block sites again
+function blockSites() {
+    blockingEnabled = true;
+}
+
+
 // test site to block
 addBlockSite("youtube.com");
+
+// test unblocking sites
+unblockSites(0.5);
 
 // // test task
 // let id = addTask("testTask", "test description", Date.now(), 12);
