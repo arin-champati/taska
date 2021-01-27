@@ -173,6 +173,9 @@ chrome.runtime.onMessage.addListener(
                 request.taskDateTime, 
                 request.taskReward);
         }
+        else if (request.message == "addBlock") {
+            addBlockSite(request.site);
+        }
         sendResponse({})
     }
   );

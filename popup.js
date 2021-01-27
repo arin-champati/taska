@@ -17,7 +17,19 @@ function handleTaskSubmit() {
       });
 }
 
+function handleBlockSubmit() {
+    let site = document.getElementById("site");
+    chrome.runtime.sendMessage({
+        message: "addBlock", 
+        blockSite: site, 
+    }, function(response) {
+        console.log("Sent block site");
+      });
+}
+
 window.onload = function () {
     let tasksubmit = document.getElementById("tasksubmit");
     tasksubmit.addEventListener("click", handleTaskSubmit);
+    let blocksubmit = document.getElementById("blocksubmit");
+    blocksubmit.addEventListener("click", handleTaskSubmit);
 }
