@@ -8,6 +8,42 @@ chrome.storage.sync.set({'taskList': []}, function() {
   console.log('Initialize task list');
 });
 
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
+
+// overall points by user
+let points = 0;
+
+class Task {
+    constructor(name, description, deadline, reward) {
+        this.taskID = uuidv4();
+        this.name = name;
+        this.description = description;
+        this.deadline = deadline;
+        this.reward = reward;
+        this.complete = false
+    }
+
+    // check if deadline has passed
+    pastDeadline() {
+        return Date.now() > this.deadline;
+    }
+
+    // finish the task
+    completeTask() {
+        this.complete = true;
+        points += this.reward;
+    }
+}
+
+// toString for debugging purposes
+Task.prototype.toString = function() {
+    return this.name;
+}
+
 // Block sites
 function handleTabChange(activeInfo) {
     // Gives details of the active tab in the current window.
@@ -34,31 +70,69 @@ chrome.tabs.onUpdated.addListener(handleTabChange);
 
 // Add site to block list
 function addBlockSite(siteUrl) {
+    // disable buttons here
     chrome.storage.sync.get(['blockList'], function(result) {
-        result.blockList.push(siteUrl)
+        result.blockList.push(siteUrl);
         chrome.storage.sync.set({'blockList': result.blockList}, function() {
             console.log('Added ' + siteUrl + ' to block list');
+            // enable buttons here
         });
+    });
+}
+
+// TODO: remove block site
+
+// adds a task to the task list
+// returns the uuid of the task
+function addTask(taskName, taskDescription, taskDeadline, taskReward) {
+    // disable buttons here
+    let task = new Task(taskName, taskDescription, taskDeadline, taskReward);
+    chrome.storage.sync.get(['taskList'], function(result) {
+        result.taskList.push(task);
+        alert(result.taskList);
+        chrome.storage.sync.set({'taskList': result.taskList}, function() {
+            console.log('Added ' + task.name + ' to task list with id '+ task.taskID);
+            // enable buttons here
+        });
+    });
+    return task.taskID;
+}
+
+// removes a task from the task list by uuid
+function removeTask(taskID) {
+    chrome.storage.sync.get(['taskList'], function(result) {
+        let index = -1;
+        let taskList = result.taskList;
+        alert(result.taskList);
+        for(let i = 0; i < taskList.length; i++) {
+            if(taskList[i].taskID === taskID) {
+                index = i;
+                break;
+            }
+        }
+        if(index != -1) {
+            taskList.splice(index, 1);
+            chrome.storage.sync.set({'taskList': taskList}, function() {
+                alert('Removed ' + taskID + ' from the task list');
+            });
+        } else {
+            alert("removing invalid task");
+        }
     });
 }
 
 // test site to block
 addBlockSite("youtube.com");
 
-function addTask(taskName, taskDescription, taskDeadline, taskReward) {
-    let task = {
-        name: taskName,
-        description: taskDescription,
-        deadline: taskDeadline,
-        reward: taskReward
-    };
-    chrome.storage.sync.get(['taskList'], function(result) {
-        result.taskList.push(task)
-        chrome.storage.sync.set({'taskList': result.taskList}, function() {
-            console.log('Added ' + taskName + ' to task list');
-        });
-    });
-}
-
 // test task
-addTask("testTask", "test description", "12", 12);
+let id = addTask("testTask", "test description", Date.now(), 12);
+// weird async shit
+function wrapper() {
+    addTask("testTask2", "test description", Date.now(), 13);
+}
+setTimeout(wrapper, 1000);
+
+function wrapper2() {
+    removeTask(id)
+}
+setTimeout(wrapper2, 1000);
