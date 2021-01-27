@@ -26,8 +26,8 @@ function fillTemplate(index, name, date, time, desc, reward) {
 	                <td class="task-name" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
 	                <td class="task-date" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${date}</td>
 	                <td class="task-action no-collapse">
-	                  <a class="bi bi-check-square"></a>
-	                  <a class="bi bi-x"></a>
+	                  <a class="bi bi-check2-square dark-icon"></a>
+	                  <a class="bi bi-x task-action-button dark-icon"></a>
 	                </td>
 	                
 	              </tr>
