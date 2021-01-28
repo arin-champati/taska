@@ -83,4 +83,9 @@ body {
   margin:0px;
 }
 
+.task-complete {
+  color:green;
+  text-decoration: line-through;
+}
+
 
