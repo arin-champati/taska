@@ -6,9 +6,12 @@ chrome.runtime.onMessage.addListener(
         if(request.blockLink) {
           document.body.innerHTML = 
           `
-          You have blocked this website for while you are working.
+          <h2>TASKA</h2>
+          <p>Hello from the Taska Chrome Extension!</p>
+          
+          <p>You have blocked this website for while you are working.</p>
 
-          Unblock this website, or click the "Stop Working!" button to continue usage.
+          <p>Unblock this website, or click the "Stop Working!" button to continue usage.</p>
           `;
         }
     }

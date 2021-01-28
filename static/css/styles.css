@@ -1,3 +1,15 @@
+/* 
+COLORS
+
+Purple:   #5271FF
+Red:      #FF3F00
+Orange:   #FF7F11
+Black:    #00000
+White:    #FFFFFF
+Grey:     #BEB7A4
+
+*/
+
 .btn-default {
   font-family: Raleway-SemiBold;
   font-size: 13px;
@@ -76,7 +88,15 @@ body {
 }
 
 .dark-icon {
+  color: rgb(83, 83, 83);
+}
+
+.dark-icon:hover {
   color: black;
+}
+
+.light-icon {
+
 }
 
 #settings-button {
@@ -84,8 +104,18 @@ body {
 }
 
 .task-complete {
-  color:green;
+  color:rgb(83, 83, 83) !important;
   text-decoration: line-through;
 }
 
+/* 
+COLORS
 
+Purple:   #5271FF
+Red:      #FF3F00
+Orange:   #FF7F11
+Black:    #00000
+White:    #FFFFFF
+Grey:     #BEB7A4
+
+*/
