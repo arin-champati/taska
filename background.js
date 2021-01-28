@@ -1,14 +1,19 @@
-// Initialize block list
 chrome.runtime.onInstalled.addListener(function() {
+    // Initialize block list
     chrome.storage.sync.set({'blockList': []}, function() {
         console.log('Initialize block list');
     });
-});
-
-// Initialize task list
-chrome.runtime.onInstalled.addListener(function() {
+    // Initialize task list
     chrome.storage.sync.set({'taskList': []}, function() {
         console.log('Initialize task list');
+    });
+    // Initialize points for user
+    chrome.storage.sync.set({'points': 0}, function() {
+        console.log('Initialized points to 0');
+    });
+    // Disable blocking on startup
+    chrome.storage.sync.set({'blockingEnabled': false}, function() {
+        console.log('Set blockingEnabled to false');
     });
 });
 
@@ -18,14 +23,6 @@ function uuidv4() {
       );
 }
 
-// overall points by user
-let points = 10;
-
-// whether or not to enable blocking
-chrome.storage.sync.set({'blockingEnabled': false}, function() {
-    console.log('Set blockingEnabled to false');
-});
-
 class Task {
     constructor(name, description, deadline, reward) {
         this.taskID = uuidv4();
@@ -34,17 +31,6 @@ class Task {
         this.deadline = deadline;
         this.reward = reward;
         this.complete = false
-    }
-
-    // check if deadline has passed
-    pastDeadline() {
-        return Date.now() > this.deadline;
-    }
-
-    // finish the task
-    completeTask() {
-        this.complete = true;
-        points += this.reward;
     }
 }
 
@@ -154,17 +140,20 @@ function removeTask(taskID) {
 // temporarily equate 1 point to 1 minute
 // I have no idea if this works
 function unblockSites(cost, time_limit=true) {
-    if (points < cost) {
-        console.log("Not enough points, " + (cost - points) + " more required")
-    } else {
-        points -= cost;
-        chrome.storage.sync.set({'blockingEnabled': false}, function() {
-            console.log('Set blockingEnabled to false');
-        });
-        if (time_limit) {
-            setTimeout(blockSites, 1000*60*cost);
+    chrome.storage.sync.get(['points'], function(result) {
+        let points = result.points;
+        if (points < cost) {
+            console.log("Not enough points, " + (cost - points) + " more required")
+        } else {
+            points -= cost;
+            chrome.storage.sync.set({'blockingEnabled': false}, function() {
+                console.log('Set blockingEnabled to false');
+            });
+            if (time_limit) {
+                setTimeout(blockSites, 1000*60*cost);
+            }
         }
-    }
+    });
 }
 
 // block sites again
@@ -189,8 +178,10 @@ chrome.runtime.onMessage.addListener(
             removeBlockSite(request.blockSite);
         } else if (request.message == "startBlocking") {
             blockSites();
-        } else if (request.message = "stopBlocking") {
+        } else if (request.message == "stopBlocking") {
             unblockSites(0, false);
+        } else if (request.message == "removeTask") {
+            removeTask(request.removeTask)
         }
         sendResponse({})
     }

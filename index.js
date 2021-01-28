@@ -21,13 +21,13 @@ function toggleWorking() {
 	});
 }
 
-function fillTemplate(index, name, date, time, desc, reward) {
-	return `<tr>
-	                <td class="task-name" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
+function fillTemplate(index, name, date, time, desc, reward, task_id, complete) {
+	return `<tr id="${task_id}">
+	                <td class="task-name ${complete ? 'task-complete' : ''}" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
 	                <td class="task-date" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${date}</td>
 	                <td class="task-action no-collapse">
-	                  <a class="bi bi-check2-square dark-icon"></a>
-	                  <a class="bi bi-x task-action-button dark-icon"></a>
+	                  ${complete ? `` : `<a class="bi bi-check-square complete-task dark-icon" role="button"></a>`}
+	                  <a class="bi bi-x delete-task task-action-button dark-icon" role="button"></a>
 	                </td>
 	                
 	              </tr>
@@ -55,18 +55,57 @@ function updateTaskList(taskList) {
 		let date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
 		let time = (d.getHours() % 12) + ":" + (d.getMinutes() < 10 ? "0" : "") + 
 			d.getMinutes() + " " + (d.getHours() / 12 == 0 ? "A" : "P" ) + "M";
-		let current = fillTemplate(i, task.name, date, time, task.description, task.reward)
+		let current = fillTemplate(i, task.name, date, time, task.description, task.reward, task.taskID, task.complete)
 		parent.innerHTML += current;
 	}
+}
+
+function updatePoints(value) {
+	let points = document.getElementById("points-total");
+	points.innerHTML = "Lifetime Points: " + value;
+}
+
+function handleTaskComplete() {
+	let task_id = this.parentNode.parentNode.id;
+	let points = 0;
+	chrome.storage.sync.get(['points', 'taskList'], function(result) {
+		let taskList = result.taskList;
+		for (let i = 0; i < taskList.length; i++) {
+			if (taskList[i].taskID === task_id && taskList[i].complete === false) {
+				points = taskList[i].reward;
+				taskList[i].complete = true;
+				break;
+			}
+		}
+		chrome.storage.sync.set({'points': result.points + points, 'taskList': taskList}, function() {
+			console.log("Increased points by " + points);
+			updatePoints(result.points + points);
+			location.reload();
+		});
+	});
+
+}
+
+function handleTaskRemove() {
+	let task_id = this.parentNode.parentNode.id;
+	chrome.runtime.sendMessage({
+	    message: "removeTask", 
+	    removeTask: task_id, 
+	}, function(response) {
+	    console.log("Sent remove task");
+	    location.reload()
+	});
 }
 
 window.onload = function () {
 	let working_button = document.getElementById("working-button");
 	working_button.addEventListener("click", toggleWorking);
 
-	chrome.storage.sync.get(['taskList', 'blockingEnabled'], function(result) {
+	chrome.storage.sync.get(['taskList', 'blockingEnabled', 'points'], function(result) {
 		let taskList = result.taskList;
 		updateTaskList(taskList);
+
+		updatePoints(result.points);
 
 		let blockingEnabled = result.blockingEnabled;
 		if (blockingEnabled) {
@@ -74,5 +113,16 @@ window.onload = function () {
 		} else {
 			document.getElementById("working-button").value="Start working!";
 		}
+
+		let completes = document.getElementsByClassName("complete-task");
+		for(let i = 0; i < completes.length; i++) {
+			completes[i].addEventListener("click", handleTaskComplete);
+		}
+
+		let deletes = document.getElementsByClassName("delete-task");
+		for(let i = 0; i < deletes.length; i++) {
+			deletes[i].addEventListener("click", handleTaskRemove);
+		}
 	});
+
 }
