@@ -15,6 +15,16 @@ chrome.runtime.onInstalled.addListener(function() {
     chrome.storage.sync.set({'blockingEnabled': false}, function() {
         console.log('Set blockingEnabled to false');
     });
+    // Initialize settings
+    // Default values
+    let sPoints = 15;
+    let lPoints = 30;
+    let sDuration = 15;
+    let lDuration = 30;
+    chrome.storage.sync.set({'sPoints': sPoints, 'lPoints': lPoints,
+    'sDuration':sDuration, 'lDuration':lDuration}, function() {
+    console.log('Updated settings');
+});
 });
 
 function uuidv4() {
@@ -148,10 +158,10 @@ function unblockSites(cost, time_limit=true) {
             points -= cost;
             chrome.storage.sync.set({'blockingEnabled': false}, function() {
                 console.log('Set blockingEnabled to false');
+                if (time_limit) {
+                    setTimeout(blockSites, 1000*60*cost);
+                }
             });
-            if (time_limit) {
-                setTimeout(blockSites, 1000*60*cost);
-            }
         }
     });
 }
