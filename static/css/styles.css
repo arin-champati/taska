@@ -1,3 +1,15 @@
+/* 
+COLORS
+
+Purple:   #5271FF
+Red:      #FF3F00
+Orange:   #FF7F11
+Black:    #00000
+White:    #FFFFFF
+Grey:     #BEB7A4
+
+*/
+
 .btn-default {
   font-family: Raleway-SemiBold;
   font-size: 13px;
@@ -38,11 +50,25 @@
   color:#FFF;
 }
 
+.btn-danger {
+  background-color: #FF3F00;
+  border: #FF3F00;
+}
+
+.btn-danger:hover {
+  background-color: #e43900;
+  border: #e43900;
+}
+
 .navbar-nav {
 flex: 1;
 margin: auto !important;
 display: flex;
 justify-content: space-around;
+}
+
+.table.table.table-secondary td{
+  background-color: rgba(248, 249, 250) !important;
 }
 
 body {
@@ -76,7 +102,15 @@ body {
 }
 
 .dark-icon {
+  color: rgb(83, 83, 83);
+}
+
+.dark-icon:hover {
   color: black;
+}
+
+.light-icon {
+  color: #FF7F11;
 }
 
 #settings-button {
@@ -84,8 +118,18 @@ body {
 }
 
 .task-complete {
-  color:green;
+  color:rgb(83, 83, 83) !important;
   text-decoration: line-through;
 }
 
+/* 
+COLORS
 
+Purple:   #5271FF
+Red:      #FF3F00
+Orange:   #FF7F11
+Black:    #00000
+White:    #FFFFFF
+Grey:     #BEB7A4
+
+*/
