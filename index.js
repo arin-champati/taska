@@ -21,13 +21,15 @@ function toggleWorking() {
 	});
 }
 
+// ${complete ? `` : `<a class="bi bi-check-square complete-task dark-icon" role="button"></a>`}
+
 function fillTemplate(index, name, date, time, desc, reward, task_id, complete) {
 	return `<tr id="${task_id}">
 	                <td class="task-name ${complete ? 'task-complete' : ''}" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
 	                <td class="task-date" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${date}</td>
 	                <td class="task-action no-collapse">
-	                  ${complete ? `` : `<a class="bi bi-check-square complete-task dark-icon" role="button"></a>`}
-	                  <a class="bi bi-x delete-task task-action-button dark-icon" role="button"></a>
+	                  <input class="complete-task" type='checkbox' ${complete ? 'checked' : ''}></input>
+	                  <a class="bi bi-x delete-task" role="button"></a>
 	                </td>
 	                
 	              </tr>
@@ -71,9 +73,9 @@ function handleTaskComplete() {
 	chrome.storage.sync.get(['points', 'taskList'], function(result) {
 		let taskList = result.taskList;
 		for (let i = 0; i < taskList.length; i++) {
-			if (taskList[i].taskID === task_id && taskList[i].complete === false) {
-				points = taskList[i].reward;
-				taskList[i].complete = true;
+			if (taskList[i].taskID === task_id) {
+				points = (taskList[i].complete ? -1 : 1) * taskList[i].reward;
+				taskList[i].complete = !taskList[i].complete;
 				break;
 			}
 		}
