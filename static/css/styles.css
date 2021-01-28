@@ -50,11 +50,25 @@ Grey:     #BEB7A4
   color:#FFF;
 }
 
+.btn-danger {
+  background-color: #FF3F00;
+  border: #FF3F00;
+}
+
+.btn-danger:hover {
+  background-color: #e43900;
+  border: #e43900;
+}
+
 .navbar-nav {
 flex: 1;
 margin: auto !important;
 display: flex;
 justify-content: space-around;
+}
+
+.table.table.table-secondary td{
+  background-color: rgba(248, 249, 250) !important;
 }
 
 body {
@@ -96,7 +110,7 @@ body {
 }
 
 .light-icon {
-
+  color: #FF7F11;
 }
 
 #settings-button {
