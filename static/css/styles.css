@@ -113,6 +113,10 @@ body {
   color: #FF7F11;
 }
 
+.light-icon:hover {
+  color: #FF3F00;
+}
+
 #settings-button {
   margin:0px;
 }
