@@ -2,9 +2,9 @@ function toggleWorking() {
 	chrome.storage.sync.get(['blockingEnabled'], function(result) {
 		let blockingEnabled = result.blockingEnabled;
 		if(!blockingEnabled) {
-			document.getElementById("working-button").value="Stop working!";
+			document.getElementById("working-button").value="Use Points";
 			chrome.runtime.sendMessage({
-			    message: "startBlocking", 
+			    message: "stopBlocking", 
 			}, function(response) {
 			    console.log("Sent start blocking");
 			});
@@ -13,7 +13,7 @@ function toggleWorking() {
 			document.getElementById("working-button").value="Start working!";
 			// send message to stop blocking
 			chrome.runtime.sendMessage({
-			    message: "stopBlocking", 
+			    message: "startBlocking", 
 			}, function(response) {
 			    console.log("Sent stop blocking");
 			});
@@ -111,7 +111,7 @@ window.onload = function () {
 
 		let blockingEnabled = result.blockingEnabled;
 		if (blockingEnabled) {
-			document.getElementById("working-button").value="Stop working!";
+			document.getElementById("working-button").value="Use Points";
 		} else {
 			document.getElementById("working-button").value="Start working!";
 		}

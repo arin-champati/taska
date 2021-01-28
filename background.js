@@ -138,20 +138,23 @@ function removeTask(taskID) {
 
 // spend points to unblock all the sites
 // temporarily equate 1 point to 1 minute
-// I have no idea if this works
-function unblockSites(cost, time_limit=true) {
+function unblockSites(time_limit) {
     chrome.storage.sync.get(['points'], function(result) {
         let points = result.points;
-        if (points < cost) {
-            console.log("Not enough points, " + (cost - points) + " more required")
-        } else {
-            points -= cost;
-            chrome.storage.sync.set({'blockingEnabled': false}, function() {
-                console.log('Set blockingEnabled to false');
+        if (time_limit && points == 0) {
+            return;
+        }
+
+        chrome.storage.sync.set({'blockingEnabled': false}, function() {
+            console.log('Set blockingEnabled to false');
+        });
+
+        if (time_limit) {
+            setTimeout(blockSites, 1000*60*points);
+            chrome.storage.sync.set({'points': 0}, function() {
+                console.log('Set points to 0');
             });
-            if (time_limit) {
-                setTimeout(blockSites, 1000*60*cost);
-            }
+            alert("Blocking disabled for " + points + " minutes")
         }
     });
 }
@@ -178,8 +181,10 @@ chrome.runtime.onMessage.addListener(
             removeBlockSite(request.blockSite);
         } else if (request.message == "startBlocking") {
             blockSites();
+        } else if (request.message == "override") {
+            unblockSites(false);
         } else if (request.message == "stopBlocking") {
-            unblockSites(0, false);
+            unblockSites(true)
         } else if (request.message == "removeTask") {
             removeTask(request.removeTask)
         }
