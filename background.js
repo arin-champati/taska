@@ -32,21 +32,6 @@ class Task {
         this.reward = reward;
         this.complete = false
     }
-
-    // check if deadline has passed
-    pastDeadline() {
-        return Date.now() > this.deadline;
-    }
-
-    // finish the task
-    completeTask() {
-        this.complete = true;
-        chrome.storage.sync.get(['points'], function(result) {
-            chrome.storage.sync.set({'points': result.points += this.reward}, function() {
-
-            });
-        });
-    }
 }
 
 // toString for debugging purposes
@@ -193,8 +178,10 @@ chrome.runtime.onMessage.addListener(
             removeBlockSite(request.blockSite);
         } else if (request.message == "startBlocking") {
             blockSites();
-        } else if (request.message = "stopBlocking") {
+        } else if (request.message == "stopBlocking") {
             unblockSites(0, false);
+        } else if (request.message == "removeTask") {
+            removeTask(request.removeTask)
         }
         sendResponse({})
     }
