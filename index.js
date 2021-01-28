@@ -26,8 +26,8 @@ function fillTemplate(index, name, date, time, desc, reward, task_id, complete) 
 	                <td class="task-name ${complete ? 'task-complete' : ''}" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
 	                <td class="task-date" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${date}</td>
 	                <td class="task-action no-collapse">
-	                  ${complete ? `` : `<a class="bi bi-check-square complete-task" role="button"></a>`}
-	                  <a class="bi bi-x delete-task" role="button"></a>
+	                  ${complete ? `` : `<a class="bi bi-check-square complete-task dark-icon" role="button"></a>`}
+	                  <a class="bi bi-x delete-task task-action-button dark-icon" role="button"></a>
 	                </td>
 	                
 	              </tr>

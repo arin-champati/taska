@@ -75,6 +75,10 @@ body {
   margin:0px;
 }
 
+.dark-icon {
+  color: black;
+}
+
 #settings-button {
   margin:0px;
 }
