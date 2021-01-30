@@ -1,25 +1,47 @@
+// TODO: make this work
+var buttonsEnabled = true;
+
+// add site to block list
 function handleBlockSubmit() {
     let site = document.getElementById("site").value;
-    chrome.runtime.sendMessage({
-        message: "addBlock", 
-        blockSite: site, 
-    }, function(response) {
-        console.log("Sent block site");
+    // TODO: disable buttons here
+    chrome.storage.sync.get(['blockList'], function(result) {
+        result.blockList.push(site);
+        chrome.storage.sync.set({'blockList': result.blockList}, function() {
+            console.log('Added ' + site + ' to block list');
+            // TODO: enable buttons here
+        });
     });
 }
 
+// remove site from blocklist by url
 function handleBlockRemove() {
     let site = this.parentNode.childNodes[0].nodeValue;
-    chrome.runtime.sendMessage({
-        message: "remove", 
-        blockSite: site, 
-    }, function(response) {
-        console.log("Sent remove block site");
-        location.reload()
+    chrome.storage.sync.get(['blockList'], function(result) {
+        let index = -1;
+        let blockList = result.blockList;
+        for(let i = 0; i < blockList.length; i++) {
+            if(blockList[i] === site) {
+                index = i;
+                break;
+            }
+        }
+        if(index != -1) {
+            blockList.splice(index, 1);
+            chrome.storage.sync.set({'blockList': blockList}, function() {
+                console.log('Removed ' + site + ' from the block list');
+            });
+
+            // update displayed block list
+            updateBlockList(blockList);
+        } else {
+            console.log("removing invalid task");
+        }
     });
 }
 
 function updateBlockList(siteList) {
+    alert("Got here");
     let parent = document.getElementById("site-list");
     for (let i = 0; i < siteList.length; i++) {
         let siteUrl = siteList[i];
@@ -45,7 +67,7 @@ window.onload = function () {
 
 
     chrome.storage.sync.get(['blockList'], function(result) {
-        let blockList = result.blockList;
-        updateBlockList(blockList);
+        updateBlockList(result.blockList);
+        console.log("Blocklist loaded")
     });
 }

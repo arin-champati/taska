@@ -1,3 +1,4 @@
+// toggle whether or not to block sites on button click
 function toggleWorking() {
 	chrome.storage.sync.get(['blockingEnabled'], function(result) {
 		let blockingEnabled = result.blockingEnabled;
@@ -21,8 +22,8 @@ function toggleWorking() {
 	});
 }
 
-// ${complete ? `` : `<a class="bi bi-check-square complete-task dark-icon" role="button"></a>`}
 
+// template for displaying a task
 function fillTemplate(index, name, date, time, desc, reward, task_id, complete) {
 	return `<tr id="${task_id}">
 	                <td class="task-name ${complete ? 'task-complete' : ''}" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
@@ -49,6 +50,8 @@ function fillTemplate(index, name, date, time, desc, reward, task_id, complete) 
 	              </tr>`
 }
 
+
+// display the tasks currently on the task list
 function updateTaskList(taskList) {
 	let parent = document.getElementById("task-table");
 	for (let i = 0; i < taskList.length; i++) {
@@ -62,12 +65,10 @@ function updateTaskList(taskList) {
 	}
 }
 
-function updatePoints(value) {
-	let points = document.getElementById("points-total");
-	points.innerHTML = "Lifetime Points: " + value;
-}
 
+// handle successful completion of tasks
 function handleTaskComplete() {
+	// TODO: disable buttons temporarily
 	let task_id = this.parentNode.parentNode.id;
 	let points = 0;
 	chrome.storage.sync.get(['points', 'taskList'], function(result) {
@@ -81,23 +82,40 @@ function handleTaskComplete() {
 		}
 		chrome.storage.sync.set({'points': result.points + points, 'taskList': taskList}, function() {
 			console.log("Increased points by " + points);
-			updatePoints(result.points + points);
+			
+			// update displayed points
+			let points = document.getElementById("points-total");
+			points.innerHTML = "Lifetime Points: " + value;
 			location.reload();
 		});
 	});
 
 }
 
+
+// remove a task without completing it
 function handleTaskRemove() {
-	let task_id = this.parentNode.parentNode.id;
-	chrome.runtime.sendMessage({
-	    message: "removeTask", 
-	    removeTask: task_id, 
-	}, function(response) {
-	    console.log("Sent remove task");
-	    location.reload()
-	});
+	let taskID = this.parentNode.parentNode.id;
+	chrome.storage.sync.get(['taskList'], function(result) {
+        let index = -1;
+        let taskList = result.taskList;
+        for(let i = 0; i < taskList.length; i++) {
+            if(taskList[i].taskID === taskID) {
+                index = i;
+                break;
+            }
+        }
+        if(index != -1) {
+            taskList.splice(index, 1);
+            chrome.storage.sync.set({'taskList': taskList}, function() {
+                console.log('Removed ' + taskID + ' from the task list');
+            });
+        } else {
+            console.log("removing invalid task");
+        }
+    });
 }
+
 
 window.onload = function () {
 	let working_button = document.getElementById("working-button");
@@ -107,7 +125,8 @@ window.onload = function () {
 		let taskList = result.taskList;
 		updateTaskList(taskList);
 
-		updatePoints(result.points);
+		let points = document.getElementById("points-total");
+		points.innerHTML = "Lifetime Points: " + result.points;
 
 		let blockingEnabled = result.blockingEnabled;
 		if (blockingEnabled) {
