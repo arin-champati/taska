@@ -33,7 +33,7 @@ function handleBlockRemove() {
             });
 
             // update displayed block list
-            updateBlockList(blockList);
+            location.reload();
         } else {
             console.log("removing invalid task");
         }
@@ -41,7 +41,6 @@ function handleBlockRemove() {
 }
 
 function updateBlockList(siteList) {
-    alert("Got here");
     let parent = document.getElementById("site-list");
     for (let i = 0; i < siteList.length; i++) {
         let siteUrl = siteList[i];
