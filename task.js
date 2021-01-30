@@ -22,10 +22,11 @@ function handleTaskSubmit() {
     let descr = document.getElementById("task_description").value;
     let date = document.getElementById("date").value;
     let time = document.getElementById("time").value;
-    let datetime = new Date(date + " " + time);
+    let datetime = date + " " + time;
     let reward = parseFloat(document.getElementById("reward").value);
 
     // add task to tasklist
+    alert(datetime);
     let task = new Task(name, descr, datetime, reward);
     // TODO: disable buttons here
     chrome.storage.sync.get(['taskList'], function(result) {
