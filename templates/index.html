@@ -23,7 +23,7 @@
       <div class="row top-buffer reduce-bottom-buffer">
         <div>
           <p style="float:left;"><img id="main-logo" src="../static/images/check-mark.png"></p>
-          <a id="settings-button" href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
+          <a class="light-icon" id="settings-button" href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
         </div>
       </div>
 
@@ -47,11 +47,12 @@
 
     <style>
       #task-list {
-        max-height: 400px;
+        max-height: 350px;
         overflow: scroll;
       }
       table {border-collapse:collapse; table-layout:fixed; width:310px;}
       .task-name {
+        color:#5271FF;
         width:100px; 
         word-wrap:break-word;
         text-align: left;
@@ -88,9 +89,9 @@
     </style>
 
     <div class = "fixed-bottom">
-      <p class="text-center" id="points-total">Lifetime Points: 0</p>
+      <p class="text-center" id="points-total">Current Points: 0</p>
 
-      <div class="text-center" id="start-working"><input type = "button" class = "btn btn-main py-2 px-6" value = "Start working!" id ="working-button"></input></div>
+      <div class="text-center"><input type = "button" class = "btn btn-main py-2 px-6" value = "Start working!" id ="working-button"></input></div>
       <br>
       <nav class = "navbar navbar-expand navbar-light bg-light">
         <ul class="navbar-nav">

@@ -23,12 +23,12 @@
       <div class="row top-buffer reduce-bottom-buffer">
         <div>
             <p style="float:left;"><img id="main-logo" src="../static/images/check-mark.png"></p>
-          <a href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
+          <a class="light-icon" href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
         </div>
       </div>
 
     </div>
-    <br>   
+    <br>  
 
     <div class = "fixed-bottom">
         <nav class = "navbar navbar-expand navbar-light bg-light">
@@ -51,6 +51,44 @@
             </ul>
           </nav>
     </div>
+
+    <!-- Added settings -->
+    <div class="container-fluid" id="settings-form">
+      <form>
+        <div class="form-group my-3">
+          <label for="sPoints">Short Break Points</label>
+          <input type="number" min="0" step="0.5" class="form-control" id="sPoints" aria-describedby="task" placeholder="Enter # of points for a short break" autocomplete="off" required>
+        </div>
+        <div class="form-group my-3">
+          <label for="lPoints">Long Break Points</label>
+          <input type="number" min="0" step="0.5" class="form-control" id="lPoints" aria-describedby="task" placeholder="Enter # of points for a long break" autocomplete="off" required>
+        </div>
+        <div class="form-group my-3">
+          <label for="sDuration">Duration of Short Break (Min)</label>
+          <input type="number" min="0" step="0.5" class="form-control" id="sDuration" aria-describedby="task" placeholder="Enter duration of short break" autocomplete="off" required>
+        </div>
+        <div class="form-group my-3">
+          <label for="lDuration">Duration of Long Break (Min)</label>
+          <input type="number" min="0" step="0.5" class="form-control" id="lDuration" aria-describedby="task" placeholder="Enter duration of long break" autocomplete="off" required>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class = "form-actions mt-4">
+          <button type="submit" id="settings-sub" class="text-center py-2 px-6 btn-main">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <style>
+        #settings-form {
+          margin-top:-20px;
+        }
+        #settings-sub {
+            margin-top:2px;
+        }
+
+      </style>
 
 </body>
 </html>

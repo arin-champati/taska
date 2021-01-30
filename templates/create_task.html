@@ -22,7 +22,7 @@
       <div class="row top-buffer reduce-bottom-buffer">
         <div>
           <p style="float:left;"><img id="main-logo" src="../static/images/check-mark.png"></p>
-          <a href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
+          <a class="light-icon" href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
         </div>
       </div>
 
@@ -37,7 +37,7 @@
             </div>
             <div class="form-group my-3">
               <label for="task_description">Task Description</label>
-              <textarea class="form-control" id="task_description" placeholder="Description of Task"></textarea>
+              <textarea class="form-control" id="task_description" placeholder="Enter task description"></textarea>
             </div>
             <div class="form-group my-3">
               <label for="date">Task Deadline</label>
@@ -52,7 +52,10 @@
               <label for="reward">Reward</label>
               <input type="number" min="0" step="0.5" class = "form-control" id="reward" autocomplete="off" required></input>
             </div>
-            <div class = "form-actions">
+            <br>
+            <br>
+            <br>
+            <div class = "form-actions mt-3">
               <button type="submit" class="text-center py-2 px-6 btn-main">Submit</button>
             </div>
         </form>
