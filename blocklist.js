@@ -31,16 +31,17 @@ function handleBlockRemove() {
             chrome.storage.sync.set({'blockList': blockList}, function() {
                 console.log('Removed ' + site + ' from the block list');
                 // update displayed block list
-                location.reload();
+                updateBlockList(blockList);
             });
         } else {
-            console.log("removing invalid task");
+            alert("removing invalid site");
         }
     });
 }
 
 function updateBlockList(siteList) {
     let parent = document.getElementById("site-list");
+    parent.innerHTML = "";
     for (let i = 0; i < siteList.length; i++) {
         let siteUrl = siteList[i];
         let listItem = document.createElement("li");

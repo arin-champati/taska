@@ -54,6 +54,7 @@ function fillTemplate(index, name, date, time, desc, reward, task_id, complete) 
 // display the tasks currently on the task list
 function updateTaskList(taskList) {
 	let parent = document.getElementById("task-table");
+	parent.innerHTML = "";
 	for (let i = 0; i < taskList.length; i++) {
 		let task = taskList[i];
 		let d = new Date(task.deadline);
@@ -62,6 +63,18 @@ function updateTaskList(taskList) {
 			d.getMinutes() + " " + (d.getHours() / 12 == 0 ? "A" : "P" ) + "M";
 		let current = fillTemplate(i, task.name, date, time, task.description, task.reward, task.taskID, task.complete)
 		parent.innerHTML += current;
+	}
+
+	// Button handlers for complete task buttons
+	let completes = document.getElementsByClassName("complete-task");
+	for(let i = 0; i < completes.length; i++) {
+		completes[i].addEventListener("click", handleTaskComplete);
+	}
+
+	// Button handlers for remove task buttons
+	let deletes = document.getElementsByClassName("delete-task");
+	for(let i = 0; i < deletes.length; i++) {
+		deletes[i].addEventListener("click", handleTaskRemove);
 	}
 }
 
@@ -86,7 +99,8 @@ function handleTaskComplete() {
 			// update displayed points
 			let points_el = document.getElementById("points-total");
 			points_el.innerHTML = "Current Points: " + (result.points + points);
-			location.reload();
+			// update displayed tasklist
+			updateTaskList(taskList);
 		});
 	});
 
@@ -110,10 +124,10 @@ function handleTaskRemove() {
             chrome.storage.sync.set({'taskList': taskList}, function() {
                 console.log('Removed ' + taskID + ' from the task list');
                 // Update displayed task list
-                location.reload();
+                updateTaskList(taskList);
             });
         } else {
-            console.log("removing invalid task");
+            alert("removing invalid task");
         }
     });
 }
@@ -138,17 +152,6 @@ window.onload = function () {
 			document.getElementById("working-button").value="Start working!";
 		}
 
-		// Button handlers for complete task buttons
-		let completes = document.getElementsByClassName("complete-task");
-		for(let i = 0; i < completes.length; i++) {
-			completes[i].addEventListener("click", handleTaskComplete);
-		}
-
-		// Button handlers for remove task buttons
-		let deletes = document.getElementsByClassName("delete-task");
-		for(let i = 0; i < deletes.length; i++) {
-			deletes[i].addEventListener("click", handleTaskRemove);
-		}
 	});
 
 }
