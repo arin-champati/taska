@@ -30,10 +30,9 @@ function handleBlockRemove() {
             blockList.splice(index, 1);
             chrome.storage.sync.set({'blockList': blockList}, function() {
                 console.log('Removed ' + site + ' from the block list');
+                // update displayed block list
+                location.reload();
             });
-
-            // update displayed block list
-            location.reload();
         } else {
             console.log("removing invalid task");
         }

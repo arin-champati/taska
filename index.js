@@ -84,8 +84,8 @@ function handleTaskComplete() {
 			console.log("Increased points by " + points);
 			
 			// update displayed points
-			let points = document.getElementById("points-total");
-			points.innerHTML = "Lifetime Points: " + value;
+			let points_el = document.getElementById("points-total");
+			points_el.innerHTML = "Current Points: " + (result.points + points);
 			location.reload();
 		});
 	});
@@ -109,6 +109,8 @@ function handleTaskRemove() {
             taskList.splice(index, 1);
             chrome.storage.sync.set({'taskList': taskList}, function() {
                 console.log('Removed ' + taskID + ' from the task list');
+                // Update displayed task list
+                location.reload();
             });
         } else {
             console.log("removing invalid task");
@@ -122,11 +124,12 @@ window.onload = function () {
 	working_button.addEventListener("click", toggleWorking);
 
 	chrome.storage.sync.get(['taskList', 'blockingEnabled', 'points'], function(result) {
-		let taskList = result.taskList;
-		updateTaskList(taskList);
+		// display task list
+		updateTaskList(result.taskList);
 
+		// display current points
 		let points = document.getElementById("points-total");
-		points.innerHTML = "Lifetime Points: " + result.points;
+		points.innerHTML = "Current Points: " + result.points;
 
 		let blockingEnabled = result.blockingEnabled;
 		if (blockingEnabled) {
@@ -135,11 +138,13 @@ window.onload = function () {
 			document.getElementById("working-button").value="Start working!";
 		}
 
+		// Button handlers for complete task buttons
 		let completes = document.getElementsByClassName("complete-task");
 		for(let i = 0; i < completes.length; i++) {
 			completes[i].addEventListener("click", handleTaskComplete);
 		}
 
+		// Button handlers for remove task buttons
 		let deletes = document.getElementsByClassName("delete-task");
 		for(let i = 0; i < deletes.length; i++) {
 			deletes[i].addEventListener("click", handleTaskRemove);
