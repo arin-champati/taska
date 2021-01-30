@@ -1,3 +1,4 @@
+// toggle whether or not to block sites on button click
 function toggleWorking() {
 	chrome.storage.sync.get(['blockingEnabled'], function(result) {
 		let blockingEnabled = result.blockingEnabled;
@@ -21,8 +22,8 @@ function toggleWorking() {
 	});
 }
 
-// ${complete ? `` : `<a class="bi bi-check-square complete-task dark-icon" role="button"></a>`}
 
+// template for displaying a task
 function fillTemplate(index, name, date, time, desc, reward, task_id, complete) {
 	return `<tr id="${task_id}">
 	                <td class="task-name ${complete ? 'task-complete' : ''}" data-bs-toggle="collapse" href="#task-${index}" role="button" aria-expanded="false" aria-controls="task-${index}">${name}</td>
@@ -49,8 +50,11 @@ function fillTemplate(index, name, date, time, desc, reward, task_id, complete) 
 	              </tr>`
 }
 
+
+// display the tasks currently on the task list
 function updateTaskList(taskList) {
 	let parent = document.getElementById("task-table");
+	parent.innerHTML = "";
 	for (let i = 0; i < taskList.length; i++) {
 		let task = taskList[i];
 		let d = new Date(task.deadline);
@@ -60,14 +64,24 @@ function updateTaskList(taskList) {
 		let current = fillTemplate(i, task.name, date, time, task.description, task.reward, task.taskID, task.complete)
 		parent.innerHTML += current;
 	}
+
+	// Button handlers for complete task buttons
+	let completes = document.getElementsByClassName("complete-task");
+	for(let i = 0; i < completes.length; i++) {
+		completes[i].addEventListener("click", handleTaskComplete);
+	}
+
+	// Button handlers for remove task buttons
+	let deletes = document.getElementsByClassName("delete-task");
+	for(let i = 0; i < deletes.length; i++) {
+		deletes[i].addEventListener("click", handleTaskRemove);
+	}
 }
 
-function updatePoints(value) {
-	let points = document.getElementById("points-total");
-	points.innerHTML = "Lifetime Points: " + value;
-}
 
+// handle successful completion of tasks
 function handleTaskComplete() {
+	// TODO: disable buttons temporarily
 	let task_id = this.parentNode.parentNode.id;
 	let points = 0;
 	chrome.storage.sync.get(['points', 'taskList'], function(result) {
@@ -81,33 +95,55 @@ function handleTaskComplete() {
 		}
 		chrome.storage.sync.set({'points': result.points + points, 'taskList': taskList}, function() {
 			console.log("Increased points by " + points);
-			updatePoints(result.points + points);
-			location.reload();
+			
+			// update displayed points
+			let points_el = document.getElementById("points-total");
+			points_el.innerHTML = "Current Points: " + (result.points + points);
+			// update displayed tasklist
+			updateTaskList(taskList);
 		});
 	});
 
 }
 
+
+// remove a task without completing it
 function handleTaskRemove() {
-	let task_id = this.parentNode.parentNode.id;
-	chrome.runtime.sendMessage({
-	    message: "removeTask", 
-	    removeTask: task_id, 
-	}, function(response) {
-	    console.log("Sent remove task");
-	    location.reload()
-	});
+	let taskID = this.parentNode.parentNode.id;
+	chrome.storage.sync.get(['taskList'], function(result) {
+        let index = -1;
+        let taskList = result.taskList;
+        for(let i = 0; i < taskList.length; i++) {
+            if(taskList[i].taskID === taskID) {
+                index = i;
+                break;
+            }
+        }
+        if(index != -1) {
+            taskList.splice(index, 1);
+            chrome.storage.sync.set({'taskList': taskList}, function() {
+                console.log('Removed ' + taskID + ' from the task list');
+                // Update displayed task list
+                updateTaskList(taskList);
+            });
+        } else {
+            alert("removing invalid task");
+        }
+    });
 }
+
 
 window.onload = function () {
 	let working_button = document.getElementById("working-button");
 	working_button.addEventListener("click", toggleWorking);
 
 	chrome.storage.sync.get(['taskList', 'blockingEnabled', 'points'], function(result) {
-		let taskList = result.taskList;
-		updateTaskList(taskList);
+		// display task list
+		updateTaskList(result.taskList);
 
-		updatePoints(result.points);
+		// display current points
+		let points = document.getElementById("points-total");
+		points.innerHTML = "Current Points: " + result.points;
 
 		let blockingEnabled = result.blockingEnabled;
 		if (blockingEnabled) {
@@ -116,15 +152,6 @@ window.onload = function () {
 			document.getElementById("working-button").value="Start working!";
 		}
 
-		let completes = document.getElementsByClassName("complete-task");
-		for(let i = 0; i < completes.length; i++) {
-			completes[i].addEventListener("click", handleTaskComplete);
-		}
-
-		let deletes = document.getElementsByClassName("delete-task");
-		for(let i = 0; i < deletes.length; i++) {
-			deletes[i].addEventListener("click", handleTaskRemove);
-		}
 	});
 
 }
