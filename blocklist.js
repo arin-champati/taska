@@ -42,7 +42,7 @@ function handleBlockRemove() {
 function updateBlockList(siteList) {
     let parent = document.getElementById("site-list");
     if (siteList.length == 0) {
-        parent.innerHTML = "<div class='container text-center'><p>Add a blocked site with the form below</p></div>";
+        parent.innerHTML = "<div id='blocked-empty' class='container text-center'><p>Add a blocked site with the form below</p></div>";
     }
     else {
         parent.innerHTML = "";
