@@ -126,6 +126,18 @@ body {
   text-decoration: line-through;
 }
 
+/* Navbar styling */
+.active-line {
+  background-color: black;
+  height: 4px;
+  background-color:#5271FF;
+}
+.nav-item {
+  margin-bottom:-8px;
+  width: 45px;
+  text-align: center;
+  font-size: 18px;
+}
 /* 
 COLORS
 
