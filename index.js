@@ -54,15 +54,22 @@ function fillTemplate(index, name, date, time, desc, reward, task_id, complete) 
 // display the tasks currently on the task list
 function updateTaskList(taskList) {
 	let parent = document.getElementById("task-table");
-	parent.innerHTML = "";
-	for (let i = 0; i < taskList.length; i++) {
-		let task = taskList[i];
-		let d = new Date(task.deadline);
-		let date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-		let time = (d.getHours() % 12) + ":" + (d.getMinutes() < 10 ? "0" : "") + 
-			d.getMinutes() + " " + (d.getHours() / 12 == 0 ? "A" : "P" ) + "M";
-		let current = fillTemplate(i, task.name, date, time, task.description, task.reward, task.taskID, task.complete)
-		parent.innerHTML += current;
+	if (taskList.length == 0) {
+		parent.innerHTML = 
+		`
+		<div class="container text-center"><p>Click the &nbsp;<i class="bi bi-plus-square dark-icon"></i>&nbsp; button to create a new task</p></div>`;
+	}
+	else {
+		parent.innerHTML = "";
+		for (let i = 0; i < taskList.length; i++) {
+			let task = taskList[i];
+			let d = new Date(task.deadline);
+			let date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+			let time = (d.getHours() % 12) + ":" + (d.getMinutes() < 10 ? "0" : "") + 
+				d.getMinutes() + " " + (d.getHours() / 12 == 0 ? "A" : "P" ) + "M";
+			let current = fillTemplate(i, task.name, date, time, task.description, task.reward, task.taskID, task.complete)
+			parent.innerHTML += current;
+		}
 	}
 
 	// Button handlers for complete task buttons
