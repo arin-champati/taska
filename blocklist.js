@@ -41,23 +41,27 @@ function handleBlockRemove() {
 
 function updateBlockList(siteList) {
     let parent = document.getElementById("site-list");
-    parent.innerHTML = "";
-    for (let i = 0; i < siteList.length; i++) {
-        let siteUrl = siteList[i];
-        let listItem = document.createElement("li");
-        listItem.innerText = siteUrl;
-        listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
-        
-        let removeButton = document.createElement("button");
-        removeButton.classList.add("btn", "btn-sm", "btn-danger");
-        removeButton.innerText = "Remove";
-        removeButton.addEventListener("click", handleBlockRemove);
-
-        listItem.appendChild(removeButton);
-
-        parent.appendChild(listItem);
+    if (siteList.length == 0) {
+        parent.innerHTML = "<div class='container text-center'><p>Add a blocked site with the form below</p></div>";
     }
+    else {
+        parent.innerHTML = "";
+        for (let i = 0; i < siteList.length; i++) {
+            let siteUrl = siteList[i];
+            let listItem = document.createElement("li");
+            listItem.innerText = siteUrl;
+            listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+            
+            let removeButton = document.createElement("button");
+            removeButton.classList.add("btn", "btn-sm", "btn-danger");
+            removeButton.innerText = "Remove";
+            removeButton.addEventListener("click", handleBlockRemove);
 
+            listItem.appendChild(removeButton);
+
+            parent.appendChild(listItem);
+        }
+    }
 }
 
 window.onload = function () {

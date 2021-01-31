@@ -19,15 +19,15 @@
   <body>
     <!-- Top bar -->
     <div class="container-fluid top-bar">
-        <div class="row top-buffer reduce-bottom-buffer">
-          <div>
-            <p style="float:left;"><img id="main-logo" src="../static/images/check-mark.png"></p>
-            <a class="light-icon" href="../templates/settings.html" style="float:right;"><i class="bi bi-gear"></i></a>
-          </div>
+      <div class="row top-buffer reduce-bottom-buffer">
+        <div>
+          <p style="float:left; margin-left: 10px;"><img id="main-logo" src="../static/images/check-mark.png"></p>
+          <a class="light-icon" id="settings-button" href="../templates/settings.html" style="float:right; margin-right: 10px;"><i class="bi bi-gear"></i></a>
         </div>
-  
       </div>
-      <br>   
+
+    </div>
+    <br>   
     <div class="container">
         <ul id="site-list" class = "list-group">
         </ul>
@@ -64,6 +64,7 @@
               <a class="nav-link" href="website_list.html">
                 <i class="bi bi-filter-square-fill dark-icon"></i>
               </a>
+              <div class="active-line"></div>
             </li>
           </ul>
         </nav>
