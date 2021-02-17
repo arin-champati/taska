@@ -9,3 +9,6 @@ This is a Google Chrome Extension that helps increase task completion productivi
 
 ## Block websites
 ![Alt text](demonstration/blocked.png?raw=true "create") ![Alt text](demonstration/blocked_demonstration.png?raw=true "create")
+
+## Set rewards
+![Alt text](demonstration/reward.png?raw=true "reward")
